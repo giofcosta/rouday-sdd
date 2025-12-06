@@ -1,0 +1,725 @@
+openapi: 3.0.3
+info:
+  title: Routine App API
+  description: |
+    API for the Routine gamified task management application.
+    All endpoints require authentication via Supabase Auth (JWT token).
+  version: 1.0.0
+  contact:
+    name: Routine App Team
+
+servers:
+  - url: /api
+    description: Next.js API Routes
+
+tags:
+  - name: Routines
+    description: Routine CRUD operations
+  - name: Weekly Data
+    description: Weekly points tracking
+  - name: Settings
+    description: User configuration
+  - name: Contact
+    description: Public contact form
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Supabase Auth JWT token
+
+  schemas:
+    # ==================== Base Schemas ====================
+    Routine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+          example: "Morning Exercise"
+        daily_average:
+          type: integer
+          minimum: 1
+          description: Available points per day (AP)
+          example: 2
+        comments:
+          type: string
+          nullable: true
+          example: "30 minutes cardio + stretching"
+        sort_order:
+          type: integer
+          example: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - name
+        - daily_average
+
+    WeeklyData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        routine_id:
+          type: string
+          format: uuid
+        week_start:
+          type: string
+          format: date
+          description: Monday of the week (ISO format)
+          example: "2025-12-01"
+        monday:
+          type: integer
+          minimum: 0
+          default: 0
+        tuesday:
+          type: integer
+          minimum: 0
+          default: 0
+        wednesday:
+          type: integer
+          minimum: 0
+          default: 0
+        thursday:
+          type: integer
+          minimum: 0
+          default: 0
+        friday:
+          type: integer
+          minimum: 0
+          default: 0
+        saturday:
+          type: integer
+          minimum: 0
+          default: 0
+        sunday:
+          type: integer
+          minimum: 0
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    UserSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          readOnly: true
+        available_days:
+          type: integer
+          minimum: 1
+          maximum: 7
+          default: 7
+          description: Days available per week (AD)
+        work_days:
+          type: integer
+          minimum: 1
+          maximum: 7
+          default: 5
+          description: Work days per week (WD)
+        work_hours_day:
+          type: integer
+          minimum: 1
+          maximum: 24
+          default: 8
+          description: Work hours per day (WHD)
+        timezone:
+          type: string
+          default: "UTC"
+          example: "America/New_York"
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+
+    # ==================== Extended Schemas ====================
+    RoutineWithWeeklyData:
+      allOf:
+        - $ref: '#/components/schemas/Routine'
+        - type: object
+          properties:
+            weekly_data:
+              $ref: '#/components/schemas/WeeklyData'
+            apw:
+              type: integer
+              description: Week Target (AP × WD)
+              readOnly: true
+            wr:
+              type: integer
+              description: Week Results (sum of DOW)
+              readOnly: true
+
+    DashboardStats:
+      type: object
+      properties:
+        total_ap:
+          type: integer
+          description: Sum of all daily averages
+        total_apw:
+          type: integer
+          description: Sum of all week targets
+        total_wr:
+          type: integer
+          description: Sum of all week results
+        off_hours_daily:
+          type: integer
+          description: 24 - WHD
+        available_work_hours_week:
+          type: integer
+          description: WHD × WD
+        hours_left:
+          type: integer
+          description: SUM(AP) - SUM(APW)
+        median_work_per_day:
+          type: number
+          format: float
+          description: SUM(APW) / AD
+
+    # ==================== Input Schemas ====================
+    CreateRoutineInput:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        daily_average:
+          type: integer
+          minimum: 1
+        comments:
+          type: string
+          nullable: true
+      required:
+        - name
+        - daily_average
+
+    UpdateRoutineInput:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        daily_average:
+          type: integer
+          minimum: 1
+        comments:
+          type: string
+          nullable: true
+
+    UpdateDayPointsInput:
+      type: object
+      properties:
+        day:
+          type: string
+          enum: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+        value:
+          type: integer
+          minimum: 0
+      required:
+        - day
+        - value
+
+    UpdateSettingsInput:
+      type: object
+      properties:
+        available_days:
+          type: integer
+          minimum: 1
+          maximum: 7
+        work_days:
+          type: integer
+          minimum: 1
+          maximum: 7
+        work_hours_day:
+          type: integer
+          minimum: 1
+          maximum: 24
+        timezone:
+          type: string
+
+    ContactFormInput:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+        message:
+          type: string
+          maxLength: 2000
+      required:
+        - name
+        - email
+        - message
+
+    # ==================== Response Schemas ====================
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+    SuccessMessage:
+      type: object
+      properties:
+        message:
+          type: string
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ==================== Routines ====================
+  /routines:
+    get:
+      tags: [Routines]
+      summary: Get all routines for current week
+      description: Returns all user's routines with their current week's data
+      operationId: getRoutines
+      parameters:
+        - name: week_start
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Optional week start date (defaults to current week)
+      responses:
+        '200':
+          description: List of routines with weekly data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  routines:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RoutineWithWeeklyData'
+                  stats:
+                    $ref: '#/components/schemas/DashboardStats'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags: [Routines]
+      summary: Create a new routine
+      operationId: createRoutine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoutineInput'
+      responses:
+        '201':
+          description: Routine created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutineWithWeeklyData'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Routine with same name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /routines/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      tags: [Routines]
+      summary: Get a specific routine
+      operationId: getRoutine
+      responses:
+        '200':
+          description: Routine details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutineWithWeeklyData'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags: [Routines]
+      summary: Update a routine
+      operationId: updateRoutine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoutineInput'
+      responses:
+        '200':
+          description: Routine updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutineWithWeeklyData'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags: [Routines]
+      summary: Delete a routine
+      operationId: deleteRoutine
+      responses:
+        '200':
+          description: Routine deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /routines/reorder:
+    post:
+      tags: [Routines]
+      summary: Reorder routines
+      operationId: reorderRoutines
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: Array of routine IDs in desired order
+              required:
+                - order
+      responses:
+        '200':
+          description: Routines reordered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ==================== Weekly Data ====================
+  /weekly-data/{routineId}:
+    parameters:
+      - name: routineId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    patch:
+      tags: [Weekly Data]
+      summary: Update day points for a routine
+      operationId: updateDayPoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDayPointsInput'
+      responses:
+        '200':
+          description: Points updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyData'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /weekly-data/{routineId}/increment:
+    parameters:
+      - name: routineId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    post:
+      tags: [Weekly Data]
+      summary: Increment day points by 1
+      operationId: incrementDayPoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day:
+                  type: string
+                  enum: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+              required:
+                - day
+      responses:
+        '200':
+          description: Points incremented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyData'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /weekly-data/{routineId}/decrement:
+    parameters:
+      - name: routineId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    post:
+      tags: [Weekly Data]
+      summary: Decrement day points by 1 (minimum 0)
+      operationId: decrementDayPoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day:
+                  type: string
+                  enum: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+              required:
+                - day
+      responses:
+        '200':
+          description: Points decremented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyData'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Routine not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ==================== Settings ====================
+  /settings:
+    get:
+      tags: [Settings]
+      summary: Get user settings
+      operationId: getSettings
+      responses:
+        '200':
+          description: User settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags: [Settings]
+      summary: Update user settings
+      operationId: updateSettings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSettingsInput'
+      responses:
+        '200':
+          description: Settings updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        '400':
+          description: Validation error (e.g., work_days > available_days)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # ==================== Contact (Public) ====================
+  /contact:
+    post:
+      tags: [Contact]
+      summary: Submit contact form
+      operationId: submitContact
+      security: []  # No auth required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactFormInput'
+      responses:
+        '200':
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
