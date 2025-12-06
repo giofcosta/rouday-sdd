@@ -3,7 +3,7 @@
 **Input**: Design documents from `/specs/001-routine-app/`  
 **Prerequisites**: plan.md ✅, spec.md ✅, data-model.md ✅, contracts/api.yaml ✅, research.md ✅
 
-**Tests**: Not explicitly requested - implementation tasks only.
+**Tests**: Per Constitution II (Test-First Development), tests are written alongside implementation. Each user story phase includes implicit test coverage - unit tests for utilities/stores, integration tests for API routes, component tests for UI. E2E tests added in Phase 11.
 
 **Organization**: Tasks grouped by user story for independent implementation and testing.
 
@@ -70,6 +70,7 @@
 - [ ] T032 [P] Install Shadcn Form component via npx shadcn-ui@latest add form
 - [ ] T033 [P] Install Shadcn Sheet component for mobile navigation via npx shadcn-ui@latest add sheet
 - [ ] T034 Create utility functions in src/lib/utils.ts (cn, formatDate, getWeekStart)
+- [ ] T034a Create API retry utility in src/lib/api-retry.ts with exponential backoff (max 3 retries per FR-036)
 
 ### Layout Foundation
 
@@ -144,7 +145,7 @@
 - [ ] T062 Create DayCell component in src/components/routines/DayCell.tsx with +/- buttons
 - [ ] T063 Add touch-friendly tap targets (min 44x44px) to DayCell component
 - [ ] T064 Add swipe gesture support for mobile in DayCell component using touch events
-- [ ] T065 Implement optimistic updates in routines store for instant feedback
+- [ ] T065 Implement optimistic updates in routines store with retry logic (per FR-035/FR-036: optimistic UI + auto-retry 3x with exponential backoff, revert on failure)
 - [ ] T066 Add micro-interactions/animations for +/- button feedback
 
 **Checkpoint**: User Story 2 complete - DOW adjustments work with instant UI updates
@@ -236,7 +237,7 @@
 
 - [ ] T087 Create auth layout in src/app/(auth)/layout.tsx
 - [ ] T088 Create login page in src/app/(auth)/login/page.tsx with Supabase Auth
-- [ ] T089 Create signup page in src/app/(auth)/signup/page.tsx with Supabase Auth
+- [ ] T089 Create signup page in src/app/(auth)/signup/page.tsx with Supabase Auth and password strength indicator (8+ chars, uppercase, number per spec)
 - [ ] T090 Create auth callback route in src/app/auth/callback/route.ts
 
 ### Auth Integration
@@ -374,9 +375,9 @@ T094, T095, T096 (Static pages) - parallel
 
 | Metric | Count |
 |--------|-------|
-| Total Tasks | 110 |
+| Total Tasks | 111 |
 | Setup Phase | 8 |
-| Foundational Phase | 30 |
+| Foundational Phase | 31 |
 | US1 (View Routines) | 20 |
 | US2 (Adjust Points) | 8 |
 | US3 (CRUD Routines) | 5 |
