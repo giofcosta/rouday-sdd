@@ -11,7 +11,8 @@ Build a gamified web application for managing daily task routines through a poin
 
 **Language/Version**: TypeScript 5.x, Node.js 20.x LTS  
 **Primary Dependencies**: Next.js 14 (App Router), React 18, Tailwind CSS 3.x, Shadcn UI, Zustand (state management)  
-**Storage**: Supabase (PostgreSQL) with Row Level Security (RLS)  
+**Storage**: Supabase (PostgreSQL) with Row Level Security (RLS) - runs locally via Docker  
+**Development**: Docker Compose orchestrates local Supabase stack (PostgreSQL, GoTrue Auth, Kong API Gateway, Studio)  
 **Testing**: Vitest (unit), Playwright (E2E), React Testing Library (component)  
 **Target Platform**: Web (responsive: mobile-first, 320px to 2560px)  
 **Project Type**: web (monorepo with frontend using Next.js API routes)  
@@ -115,7 +116,22 @@ tests/
 
 supabase/
 ├── migrations/               # Database migrations
-└── seed.sql                  # Seed data for development
+├── seed.sql                  # Seed data for development
+└── docker/                   # Docker init scripts
+    ├── init/                 # SQL scripts run on first startup
+    │   ├── 00-setup-supabase.sql
+    │   ├── 01-user-settings.sql
+    │   ├── 02-routines.sql
+    │   ├── 03-weekly-data.sql
+    │   └── 04-rls-policies.sql
+    └── kong.yml              # Kong API Gateway config
+
+# Docker files (repository root)
+docker-compose.yml            # Full local Supabase stack
+Dockerfile                    # Production Next.js build
+Dockerfile.dev                # Development with hot reload
+.env.docker                   # Docker environment variables
+.env.local.docker             # Next.js env for Docker
 ```
 
 **Structure Decision**: Single Next.js project (monorepo not needed). Using App Router with route groups for logical separation: `(public)` for marketing pages, `(auth)` for authentication, `(dashboard)` for protected app features. API routes handle backend logic with Supabase as the database layer.

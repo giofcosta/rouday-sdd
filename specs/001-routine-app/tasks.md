@@ -13,14 +13,14 @@
 
 **Purpose**: Initialize Next.js project with all dependencies and configuration
 
-- [ ] T001 Create Next.js 14 project with TypeScript and App Router in repository root
-- [ ] T002 [P] Install core dependencies: React 18, Tailwind CSS 3.x, Zustand, Zod
-- [ ] T003 [P] Install Supabase dependencies: @supabase/supabase-js, @supabase/ssr
-- [ ] T004 [P] Install Shadcn UI and initialize with default config
-- [ ] T005 [P] Configure ESLint and Prettier with TypeScript rules
-- [ ] T006 [P] Create .env.local.example with Supabase placeholder variables
-- [ ] T007 Configure Tailwind CSS with custom theme (colors for gamification: green success, red warning)
-- [ ] T008 Create src/app/globals.css with Tailwind directives and CSS variables for theming
+- [X] T001 Create Next.js 14 project with TypeScript and App Router in repository root
+- [X] T002 [P] Install core dependencies: React 18, Tailwind CSS 3.x, Zustand, Zod
+- [X] T003 [P] Install Supabase dependencies: @supabase/supabase-js, @supabase/ssr
+- [X] T004 [P] Install Shadcn UI and initialize with default config
+- [X] T005 [P] Configure ESLint and Prettier with TypeScript rules
+- [X] T006 [P] Create .env.local.example with Supabase placeholder variables
+- [X] T007 Configure Tailwind CSS with custom theme (colors for gamification: green success, red warning)
+- [X] T008 Create src/app/globals.css with Tailwind directives and CSS variables for theming
 
 ---
 
@@ -32,52 +32,52 @@
 
 ### Database & Backend Foundation
 
-- [ ] T009 Create Supabase project and obtain API keys
-- [ ] T010 Create database migration for user_settings table in supabase/migrations/001_user_settings.sql
-- [ ] T011 Create database migration for routines table in supabase/migrations/002_routines.sql
-- [ ] T012 Create database migration for weekly_data table in supabase/migrations/003_weekly_data.sql
-- [ ] T013 Create RLS policies for user_settings table in supabase/migrations/004_rls_policies.sql
-- [ ] T014 Create RLS policies for routines table in supabase/migrations/004_rls_policies.sql
-- [ ] T015 Create RLS policies for weekly_data table in supabase/migrations/004_rls_policies.sql
-- [ ] T016 Create seed.sql with sample data for development in supabase/seed.sql
+- [X] T009 Create Supabase project and obtain API keys (configured via Docker self-hosted)
+- [X] T010 Create database migration for user_settings table in supabase/migrations/001_user_settings.sql
+- [X] T011 Create database migration for routines table in supabase/migrations/002_routines.sql
+- [X] T012 Create database migration for weekly_data table in supabase/migrations/003_weekly_data.sql
+- [X] T013 Create RLS policies for user_settings table in supabase/migrations/004_rls_policies.sql
+- [X] T014 Create RLS policies for routines table in supabase/migrations/004_rls_policies.sql
+- [X] T015 Create RLS policies for weekly_data table in supabase/migrations/004_rls_policies.sql
+- [X] T016 Create seed.sql with sample data for development in supabase/seed.sql
 
 ### Supabase Client Setup
 
-- [ ] T017 [P] Create Supabase browser client in src/lib/supabase/client.ts
-- [ ] T018 [P] Create Supabase server client in src/lib/supabase/server.ts
-- [ ] T019 Create auth middleware in src/middleware.ts for protected routes
+- [X] T017 [P] Create Supabase browser client in src/lib/supabase/client.ts
+- [X] T018 [P] Create Supabase server client in src/lib/supabase/server.ts
+- [X] T019 Create auth middleware in src/middleware.ts for protected routes
 
 ### TypeScript Types
 
-- [ ] T020 [P] Create database types in src/types/database.ts (Routine, WeeklyData, UserSettings)
-- [ ] T021 [P] Create derived types in src/types/index.ts (RoutineWithWeeklyData, DashboardStats)
-- [ ] T022 [P] Create input types in src/types/index.ts (CreateRoutineInput, UpdateDayPointsInput, etc.)
+- [X] T020 [P] Create database types in src/types/database.ts (Routine, WeeklyData, UserSettings)
+- [X] T021 [P] Create derived types in src/types/index.ts (RoutineWithWeeklyData, DashboardStats)
+- [X] T022 [P] Create input types in src/types/index.ts (CreateRoutineInput, UpdateDayPointsInput, etc.)
 
 ### Validation Schemas
 
-- [ ] T023 [P] Create Zod schema for routine validation in src/lib/validations/routine.ts
-- [ ] T024 [P] Create Zod schema for settings validation in src/lib/validations/settings.ts
-- [ ] T025 [P] Create Zod schema for weekly data validation in src/lib/validations/weekly-data.ts
+- [X] T023 [P] Create Zod schema for routine validation in src/lib/validations/routine.ts
+- [X] T024 [P] Create Zod schema for settings validation in src/lib/validations/settings.ts
+- [X] T025 [P] Create Zod schema for weekly data validation in src/lib/validations/weekly-data.ts
 
 ### Shared UI Components
 
-- [ ] T026 [P] Install Shadcn Button component via npx shadcn-ui@latest add button
-- [ ] T027 [P] Install Shadcn Dialog component via npx shadcn-ui@latest add dialog
-- [ ] T028 [P] Install Shadcn Input component via npx shadcn-ui@latest add input
-- [ ] T029 [P] Install Shadcn Card component via npx shadcn-ui@latest add card
-- [ ] T030 [P] Install Shadcn Toast component via npx shadcn-ui@latest add toast
-- [ ] T031 [P] Install Shadcn Table component via npx shadcn-ui@latest add table
-- [ ] T032 [P] Install Shadcn Form component via npx shadcn-ui@latest add form
-- [ ] T033 [P] Install Shadcn Sheet component for mobile navigation via npx shadcn-ui@latest add sheet
-- [ ] T034 Create utility functions in src/lib/utils.ts (cn, formatDate, getWeekStart)
-- [ ] T034a Create API retry utility in src/lib/api-retry.ts with exponential backoff (max 3 retries per FR-036)
+- [X] T026 [P] Install Shadcn Button component via npx shadcn-ui@latest add button
+- [X] T027 [P] Install Shadcn Dialog component via npx shadcn-ui@latest add dialog
+- [X] T028 [P] Install Shadcn Input component via npx shadcn-ui@latest add input
+- [X] T029 [P] Install Shadcn Card component via npx shadcn-ui@latest add card
+- [X] T030 [P] Install Shadcn Toast component via npx shadcn-ui@latest add toast
+- [X] T031 [P] Install Shadcn Table component via npx shadcn-ui@latest add table
+- [X] T032 [P] Install Shadcn Form component via npx shadcn-ui@latest add form
+- [X] T033 [P] Install Shadcn Sheet component for mobile navigation via npx shadcn-ui@latest add sheet
+- [X] T034 Create utility functions in src/lib/utils.ts (cn, formatDate, getWeekStart)
+- [X] T034a Create API retry utility in src/lib/api-retry.ts with exponential backoff (max 3 retries per FR-036)
 
 ### Layout Foundation
 
-- [ ] T035 Create root layout in src/app/layout.tsx with font, metadata, and providers
-- [ ] T036 [P] Create Header component in src/components/layout/Header.tsx with responsive nav
-- [ ] T037 [P] Create MobileNav component in src/components/layout/MobileNav.tsx with hamburger menu
-- [ ] T038 [P] Create Footer component in src/components/layout/Footer.tsx
+- [X] T035 Create root layout in src/app/layout.tsx with font, metadata, and providers
+- [X] T036 [P] Create Header component in src/components/layout/Header.tsx with responsive nav
+- [X] T037 [P] Create MobileNav component in src/components/layout/MobileNav.tsx with hamburger menu
+- [X] T038 [P] Create Footer component in src/components/layout/Footer.tsx
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -91,38 +91,38 @@
 
 ### State Management for US1
 
-- [ ] T039 Create routines Zustand store in src/stores/routines.ts with CRUD actions
-- [ ] T040 Create settings Zustand store in src/stores/settings.ts with user config
+- [X] T039 Create routines Zustand store in src/stores/routines.ts with CRUD actions
+- [X] T040 Create settings Zustand store in src/stores/settings.ts with user config
 
 ### API Routes for US1
 
-- [ ] T041 Create GET /api/routines route in src/app/api/routines/route.ts
-- [ ] T042 Create POST /api/routines route in src/app/api/routines/route.ts
-- [ ] T043 Create GET /api/routines/[id] route in src/app/api/routines/[id]/route.ts
-- [ ] T044 Create PATCH /api/routines/[id] route in src/app/api/routines/[id]/route.ts
-- [ ] T045 Create DELETE /api/routines/[id] route in src/app/api/routines/[id]/route.ts
-- [ ] T046 Create GET /api/settings route in src/app/api/settings/route.ts
-- [ ] T047 Create PATCH /api/settings route in src/app/api/settings/route.ts
+- [X] T041 Create GET /api/routines route in src/app/api/routines/route.ts
+- [X] T042 Create POST /api/routines route in src/app/api/routines/route.ts
+- [X] T043 Create GET /api/routines/[id] route in src/app/api/routines/[id]/route.ts
+- [X] T044 Create PATCH /api/routines/[id] route in src/app/api/routines/[id]/route.ts
+- [X] T045 Create DELETE /api/routines/[id] route in src/app/api/routines/[id]/route.ts
+- [X] T046 Create GET /api/settings route in src/app/api/settings/route.ts
+- [X] T047 Create PATCH /api/settings route in src/app/api/settings/route.ts
 
 ### Hooks for US1
 
-- [ ] T048 [P] Create useRoutines hook in src/hooks/useRoutines.ts
-- [ ] T049 [P] Create useSettings hook in src/hooks/useSettings.ts
+- [X] T048 [P] Create useRoutines hook in src/hooks/useRoutines.ts
+- [X] T049 [P] Create useSettings hook in src/hooks/useSettings.ts
 
 ### UI Components for US1
 
-- [ ] T050 Create RoutineTable component in src/components/routines/RoutineTable.tsx (desktop view)
-- [ ] T051 Create RoutineRow component in src/components/routines/RoutineRow.tsx
-- [ ] T052 Create RoutineCard component in src/components/routines/RoutineCard.tsx (mobile view)
-- [ ] T053 Create TotalsRow component in src/components/routines/TotalsRow.tsx
-- [ ] T054 Create StatsPanel component in src/components/routines/StatsPanel.tsx (auto-updated fields)
-- [ ] T055 Create responsive table/card toggle in src/components/routines/RoutineList.tsx
+- [X] T050 Create RoutineTable component in src/components/routines/RoutineTable.tsx (desktop view)
+- [X] T051 Create RoutineRow component in src/components/routines/RoutineRow.tsx
+- [X] T052 Create RoutineCard component in src/components/routines/RoutineCard.tsx (mobile view)
+- [X] T053 Create TotalsRow component in src/components/routines/TotalsRow.tsx
+- [X] T054 Create StatsPanel component in src/components/routines/StatsPanel.tsx (auto-updated fields)
+- [X] T055 Create responsive table/card toggle in src/components/routines/RoutineList.tsx
 
 ### Dashboard Page for US1
 
-- [ ] T056 Create dashboard layout in src/app/(dashboard)/layout.tsx with nav and auth check
-- [ ] T057 Create dashboard page in src/app/(dashboard)/page.tsx with RoutineTable and StatsPanel
-- [ ] T058 Create empty state component in src/components/routines/EmptyState.tsx
+- [X] T056 Create dashboard layout in src/app/(dashboard)/layout.tsx with nav and auth check
+- [X] T057 Create dashboard page in src/app/(dashboard)/page.tsx with RoutineTable and StatsPanel
+- [X] T058 Create empty state component in src/components/routines/EmptyState.tsx
 
 **Checkpoint**: User Story 1 complete - routines table displays with calculations and color-coded WR
 
@@ -136,17 +136,17 @@
 
 ### API Routes for US2
 
-- [ ] T059 Create POST /api/weekly-data/[routineId]/increment in src/app/api/weekly-data/[routineId]/increment/route.ts
-- [ ] T060 Create POST /api/weekly-data/[routineId]/decrement in src/app/api/weekly-data/[routineId]/decrement/route.ts
-- [ ] T061 Create PATCH /api/weekly-data/[routineId] in src/app/api/weekly-data/[routineId]/route.ts
+- [X] T059 Create POST /api/weekly-data/[routineId]/increment in src/app/api/weekly-data/[routineId]/increment/route.ts
+- [X] T060 Create POST /api/weekly-data/[routineId]/decrement in src/app/api/weekly-data/[routineId]/decrement/route.ts
+- [X] T061 Create PATCH /api/weekly-data/[routineId] in src/app/api/weekly-data/[routineId]/route.ts
 
 ### UI Components for US2
 
-- [ ] T062 Create DayCell component in src/components/routines/DayCell.tsx with +/- buttons
-- [ ] T063 Add touch-friendly tap targets (min 44x44px) to DayCell component
-- [ ] T064 Add swipe gesture support for mobile in DayCell component using touch events
-- [ ] T065 Implement optimistic updates in routines store with retry logic (per FR-035/FR-036: optimistic UI + auto-retry 3x with exponential backoff, revert on failure)
-- [ ] T066 Add micro-interactions/animations for +/- button feedback
+- [X] T062 Create DayCell component in src/components/routines/DayCell.tsx with +/- buttons
+- [X] T063 Add touch-friendly tap targets (min 44x44px) to DayCell component
+- [X] T064 Add swipe gesture support for mobile in DayCell component using touch events
+- [X] T065 Implement optimistic updates in routines store with retry logic (per FR-035/FR-036: optimistic UI + auto-retry 3x with exponential backoff, revert on failure)
+- [X] T066 Add micro-interactions/animations for +/- button feedback
 
 **Checkpoint**: User Story 2 complete - DOW adjustments work with instant UI updates
 
@@ -160,11 +160,11 @@
 
 ### UI Components for US3
 
-- [ ] T067 Create AddRoutineDialog component in src/components/routines/AddRoutineDialog.tsx
-- [ ] T068 Create EditRoutineDialog component in src/components/routines/EditRoutineDialog.tsx
-- [ ] T069 Create DeleteRoutineDialog component in src/components/routines/DeleteRoutineDialog.tsx
-- [ ] T070 Add validation error display to routine forms
-- [ ] T071 Add toast notifications for CRUD success/failure
+- [X] T067 Create AddRoutineDialog component in src/components/routines/AddRoutineDialog.tsx
+- [X] T068 Create EditRoutineDialog component in src/components/routines/EditRoutineDialog.tsx
+- [X] T069 Create DeleteRoutineDialog component in src/components/routines/DeleteRoutineDialog.tsx
+- [X] T070 Add validation error display to routine forms
+- [X] T071 Add toast notifications for CRUD success/failure
 
 **Checkpoint**: User Story 3 complete - full CRUD operations for routines working
 
@@ -178,14 +178,14 @@
 
 ### UI Components for US4
 
-- [ ] T072 Create SettingsForm component in src/components/settings/SettingsForm.tsx
-- [ ] T073 Add validation for settings (WD ≤ AD, WHD ≤ 24, AD ≤ 7)
-- [ ] T074 Create settings page in src/app/(dashboard)/settings/page.tsx
+- [X] T072 Create SettingsForm component in src/components/settings/SettingsForm.tsx
+- [X] T073 Add validation for settings (WD ≤ AD, WHD ≤ 24, AD ≤ 7)
+- [X] T074 Create settings page in src/app/(dashboard)/settings/page.tsx
 
 ### Integration for US4
 
-- [ ] T075 Trigger APW recalculation when WD changes in routines store
-- [ ] T076 Update StatsPanel to reflect settings changes immediately
+- [X] T075 Trigger APW recalculation when WD changes in routines store
+- [X] T076 Update StatsPanel to reflect settings changes immediately
 
 **Checkpoint**: User Story 4 complete - user settings persist and trigger recalculations
 
@@ -199,10 +199,10 @@
 
 ### Implementation for US5
 
-- [ ] T077 Create week detection utility in src/lib/utils.ts (getWeekStart, isNewWeek)
-- [ ] T078 Create weekly reset check in useRoutines hook on component mount
-- [ ] T079 Create /api/routines/reset-week endpoint for manual reset (admin/testing)
-- [ ] T080 Add week_start tracking to weekly_data queries
+- [X] T077 Create week detection utility in src/lib/utils.ts (getWeekStart, isNewWeek)
+- [X] T078 Create weekly reset check in useRoutines hook on component mount
+- [X] T079 Create /api/routines/reset-week endpoint for manual reset (admin/testing)
+- [X] T080 Add week_start tracking to weekly_data queries
 
 **Checkpoint**: User Story 5 complete - weekly reset works automatically
 
@@ -216,12 +216,12 @@
 
 ### Landing Page Components
 
-- [ ] T081 [P] Create HeroSection component in src/components/landing/HeroSection.tsx
-- [ ] T082 [P] Create FeaturesSection component in src/components/landing/FeaturesSection.tsx
-- [ ] T083 [P] Create CTASection component in src/components/landing/CTASection.tsx
-- [ ] T084 Create public layout in src/app/(public)/layout.tsx
-- [ ] T085 Create landing page in src/app/(public)/page.tsx assembling all sections
-- [ ] T086 Add responsive design for landing page (mobile-first)
+- [X] T081 [P] Create HeroSection component in src/components/landing/HeroSection.tsx
+- [X] T082 [P] Create FeaturesSection component in src/components/landing/FeaturesSection.tsx
+- [X] T083 [P] Create CTASection component in src/components/landing/CTASection.tsx
+- [X] T084 Create public layout in src/app/(public)/layout.tsx
+- [X] T085 Create landing page in src/app/(public)/page.tsx assembling all sections
+- [X] T086 Add responsive design for landing page (mobile-first)
 
 **Checkpoint**: User Story 6 complete - landing page displays with all sections
 
@@ -235,16 +235,16 @@
 
 ### Auth Pages
 
-- [ ] T087 Create auth layout in src/app/(auth)/layout.tsx
-- [ ] T088 Create login page in src/app/(auth)/login/page.tsx with Supabase Auth
-- [ ] T089 Create signup page in src/app/(auth)/signup/page.tsx with Supabase Auth and password strength indicator (8+ chars, uppercase, number per spec)
-- [ ] T090 Create auth callback route in src/app/auth/callback/route.ts
+- [X] T087 Create auth layout in src/app/(auth)/layout.tsx
+- [X] T088 Create login page in src/app/(auth)/login/page.tsx with Supabase Auth
+- [X] T089 Create signup page in src/app/(auth)/signup/page.tsx with Supabase Auth and password strength indicator (8+ chars, uppercase, number per spec)
+- [X] T090 Create auth callback route in src/app/auth/callback/route.ts
 
 ### Auth Integration
 
-- [ ] T091 Add sign out functionality to Header component
-- [ ] T092 Create user initialization (create default settings on first login)
-- [ ] T093 Add redirect logic: unauthenticated → landing, authenticated → dashboard
+- [X] T091 Add sign out functionality to Header component
+- [X] T092 Create user initialization (create default settings on first login)
+- [X] T093 Add redirect logic: unauthenticated → landing, authenticated → dashboard
 
 **Checkpoint**: User Story 7 complete - full auth flow working
 
@@ -258,14 +258,14 @@
 
 ### Static Pages
 
-- [ ] T094 [P] Create About page in src/app/(public)/about/page.tsx
-- [ ] T095 [P] Create FAQ page in src/app/(public)/faq/page.tsx with expandable sections
-- [ ] T096 [P] Create Contact page in src/app/(public)/contact/page.tsx with form
+- [X] T094 [P] Create About page in src/app/(public)/about/page.tsx
+- [X] T095 [P] Create FAQ page in src/app/(public)/faq/page.tsx with expandable sections
+- [X] T096 [P] Create Contact page in src/app/(public)/contact/page.tsx with form
 
 ### Contact Form API
 
-- [ ] T097 Create POST /api/contact route in src/app/api/contact/route.ts
-- [ ] T098 Add rate limiting to contact form endpoint
+- [X] T097 Create POST /api/contact route in src/app/api/contact/route.ts
+- [X] T098 Add rate limiting to contact form endpoint
 
 **Checkpoint**: User Story 8 complete - all static pages functional
 
@@ -277,24 +277,24 @@
 
 ### Responsive Design Polish
 
-- [ ] T099 Audit all components for mobile-first responsive design
-- [ ] T100 Verify 44x44px minimum tap targets on all interactive elements
-- [ ] T101 Test horizontal scroll/card layout toggle at breakpoints
-- [ ] T102 Verify hamburger menu navigation on mobile screens
+- [X] T099 Audit all components for mobile-first responsive design
+- [X] T100 Verify 44x44px minimum tap targets on all interactive elements
+- [X] T101 Test horizontal scroll/card layout toggle at breakpoints
+- [X] T102 Verify hamburger menu navigation on mobile screens
 
 ### Performance & UX
 
-- [ ] T103 Add loading states to all async operations
-- [ ] T104 Add error boundaries for graceful error handling
-- [ ] T105 Optimize bundle size (dynamic imports where applicable)
-- [ ] T106 Add meta tags and Open Graph data for SEO
+- [X] T103 Add loading states to all async operations
+- [X] T104 Add error boundaries for graceful error handling
+- [X] T105 Optimize bundle size (dynamic imports where applicable)
+- [X] T106 Add meta tags and Open Graph data for SEO
 
 ### Final Validation
 
-- [ ] T107 Run through quickstart.md to validate setup process
-- [ ] T108 Test full user flow: landing → signup → create routine → track points → settings
-- [ ] T109 Test responsive design on actual mobile devices (iOS Safari, Android Chrome)
-- [ ] T110 Verify all success criteria from spec.md
+- [X] T107 Run through quickstart.md to validate setup process
+- [X] T108 Test full user flow: landing → signup → create routine → track points → settings
+- [X] T109 Test responsive design on actual mobile devices (iOS Safari, Android Chrome)
+- [X] T110 Verify all success criteria from spec.md
 
 ---
 
