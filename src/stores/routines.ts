@@ -8,6 +8,7 @@ interface RoutinesState {
   isLoading: boolean;
   error: string | null;
   workDays: number; // From user settings, used for APW calculation
+  hasFetched: boolean; // Track if initial fetch has been done
 
   // Actions
   setWorkDays: (workDays: number) => void;
@@ -32,6 +33,7 @@ export const useRoutinesStore = create<RoutinesState>((set, get) => ({
   isLoading: false,
   error: null,
   workDays: 5, // Default
+  hasFetched: false,
 
   setWorkDays: (workDays) => {
     set((state) => ({
@@ -41,6 +43,10 @@ export const useRoutinesStore = create<RoutinesState>((set, get) => ({
   },
 
   fetchRoutines: async () => {
+    // Prevent duplicate fetches
+    if (get().hasFetched || get().isLoading) {
+      return;
+    }
     set({ isLoading: true, error: null });
     try {
       const response = await withRetry(() => fetch('/api/routines'));
@@ -52,6 +58,7 @@ export const useRoutinesStore = create<RoutinesState>((set, get) => ({
       set({
         routines: data.data.map((r: RoutineWithWeeklyData) => enrichRoutine(r, workDays)),
         isLoading: false,
+        hasFetched: true,
       });
     } catch (error) {
       set({ error: (error as Error).message, isLoading: false });

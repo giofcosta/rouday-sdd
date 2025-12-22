@@ -6,6 +6,7 @@ import { getWeekStart } from '@/lib/utils';
 // GET /api/routines - Get all routines for the current user with weekly data
 export async function GET() {
   try {
+    console.log('GET /api/routines called');
     const supabase = await createClient();
 
     // Get current user
