@@ -4,9 +4,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DashboardLoading() {
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="space-y-6">
       {/* Stats Panel Skeleton */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
             <CardContent className="p-4">
@@ -20,7 +20,7 @@ export default function DashboardLoading() {
       {/* Table Skeleton */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <Skeleton className="h-8 w-40" />
             <Skeleton className="h-10 w-32" />
           </div>

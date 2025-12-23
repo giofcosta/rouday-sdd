@@ -63,7 +63,7 @@ export function RoutineRow({
         <TableCell 
           key={day} 
           className={cn(
-            "p-1",
+            "p-2",
             index === currentDayIndex && "bg-primary/5"
           )}
         >
