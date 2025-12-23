@@ -61,7 +61,7 @@ export function RoutineTable({
               {DAYS_OF_WEEK.map((day, index) => (
                 <TableHead 
                   key={day} 
-                  className={`text-center w-[80px] capitalize font-semibold ${
+                  className={`text-center w-[100px] capitalize font-semibold ${
                     index === currentDayIndex 
                       ? 'bg-primary/10 text-primary' 
                       : ''

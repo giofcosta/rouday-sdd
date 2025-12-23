@@ -20,6 +20,12 @@ export function useRoutines() {
 
   const { settings } = useSettingsStore();
 
+  // Fetch routines on mount
+  useEffect(() => {
+    fetchRoutines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Sync work days from settings
   useEffect(() => {
     if (settings?.work_days) {

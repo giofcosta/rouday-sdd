@@ -1,9 +1,8 @@
 'use client';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DayCell } from './DayCell';
 import { Button } from '@/components/ui/button';
-import { MoreHorizontal, Pencil, Trash2, Target, TrendingUp } from 'lucide-react';
+import { MoreHorizontal, Pencil, Trash2, Target, TrendingUp, Minus, Plus } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +22,22 @@ interface RoutineCardProps {
   onDelete: () => void;
 }
 
+// Get current day index (0 = Monday, 6 = Sunday)
+const getCurrentDayIndex = () => {
+  const day = new Date().getDay();
+  return day === 0 ? 6 : day - 1;
+};
+
+const DAY_LABELS: Record<DayOfWeek, string> = {
+  monday: 'Mon',
+  tuesday: 'Tue',
+  wednesday: 'Wed',
+  thursday: 'Thu',
+  friday: 'Fri',
+  saturday: 'Sat',
+  sunday: 'Sun',
+};
+
 export function RoutineCard({
   routine,
   onIncrement,
@@ -32,6 +47,7 @@ export function RoutineCard({
 }: RoutineCardProps) {
   const isTargetMet = routine.wr >= routine.apw;
   const progressPercent = routine.apw > 0 ? Math.min(100, Math.round((routine.wr / routine.apw) * 100)) : 0;
+  const currentDayIndex = getCurrentDayIndex();
 
   return (
     <Card className={cn(
@@ -100,19 +116,64 @@ export function RoutineCard({
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="grid grid-cols-7 gap-1">
-          {DAYS_OF_WEEK.map((day) => (
-            <div key={day} className="flex flex-col items-center">
-              <span className="text-[10px] font-medium text-muted-foreground uppercase mb-1">
-                {day.slice(0, 2)}
-              </span>
-              <DayCell
-                value={routine.weekly_data?.[day] ?? 0}
-                onIncrement={() => onIncrement(routine.id, day)}
-                onDecrement={() => onDecrement(routine.id, day)}
-              />
-            </div>
-          ))}
+        {/* Mobile-friendly day rows */}
+        <div className="space-y-2">
+          {DAYS_OF_WEEK.map((day, index) => {
+            const value = routine.weekly_data?.[day] ?? 0;
+            const isToday = index === currentDayIndex;
+            
+            return (
+              <div 
+                key={day} 
+                className={cn(
+                  "flex items-center justify-between py-2 px-3 rounded-lg",
+                  isToday ? "bg-primary/10 border border-primary/20" : "bg-muted/30"
+                )}
+              >
+                <span className={cn(
+                  "text-sm font-medium w-12",
+                  isToday && "text-primary font-semibold"
+                )}>
+                  {DAY_LABELS[day]}
+                </span>
+                
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onDecrement(routine.id, day);
+                    }}
+                    disabled={value <= 0}
+                    type="button"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  
+                  <span className="w-8 text-center font-mono text-lg font-semibold tabular-nums">
+                    {value}
+                  </span>
+                  
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onIncrement(routine.id, day);
+                    }}
+                    type="button"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </CardContent>
     </Card>
