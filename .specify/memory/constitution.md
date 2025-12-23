@@ -30,6 +30,18 @@ Start with minimal viable solution. Add complexity only when justified. YAGNI (Y
 - Tests must pass before deployment
 - Documentation updated with code changes
 
+## Data Fetching Guidelines
+
+### VI. Centralized Data Fetching
+Data fetching must be handled at the store level with built-in guards to prevent duplicate API calls. Hooks should auto-fetch on mount but NOT expose fetch functions externally. Use `hasFetched` and `isLoading` flags in zustand stores to prevent re-fetching.
+
+### VII. Store-Based State Management
+All async data operations (fetch, create, update, delete) should:
+- Check guards before executing (`hasFetched`, `isLoading`)
+- Set loading state before API calls
+- Handle errors gracefully
+- Update state atomically after success
+
 ## Governance
 
 Constitution supersedes all other practices. Amendments require team discussion and documented approval.

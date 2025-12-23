@@ -69,7 +69,6 @@ export function useRoutines() {
     isLoading,
     error,
     totals,
-    fetchRoutines,
     createRoutine: addRoutine,
     updateRoutine,
     deleteRoutine,
